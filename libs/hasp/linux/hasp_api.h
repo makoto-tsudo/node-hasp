@@ -2,7 +2,7 @@
  * \mainpage Sentinel Licensing API
  * \file hasp_api.h Sentinel Licensing API declarations
  *
- * Copyright (C) 2013, SafeNet, Inc. All rights reserved.
+ * Copyright (C) 2023 THALES. All rights reserved.
  */
 
 
@@ -296,6 +296,9 @@ enum hasp_error_codes
     /** Program running on a terminal server */
     HASP_TS_DETECTED = 27,
 
+    /** Program running on a Remote Desktop */
+    HASP_RDP_DETECTED = 27,
+
     /** Requested Feature type not implemented */
     HASP_FEATURE_TYPE_NOT_IMPL = 28,
 
@@ -405,7 +408,7 @@ enum hasp_error_codes
     /* Deprecated - use HASP_INV_ACTION */
     HASP_INV_DETACH_ACTION = 59,
 
-    /** scope does not specify a unique Product */
+    /** Scope does not specify a unique Product */
     HASP_TOO_MANY_PRODUCTS = 60,
 
     /** Invalid Product information */
@@ -418,7 +421,7 @@ enum hasp_error_codes
     /** Invalid duration */
     HASP_INV_DURATION = 63,
 
-    /** Cloned Sentinel SL secure storage detected */
+    /** Cloned secure storage area detected */
     HASP_CLONE_DETECTED = 64,
 
     /** Specified V2C update already installed in the LLM */
@@ -448,20 +451,20 @@ enum hasp_error_codes
     /** File not found or access denied */
     HASP_CANNOT_READ_FILE = 72,
 
-    /** Extension of license not allowed as number of detached
-     *  licenses is greater than current concurrency count */
+    /** Detach extension is not allowed to change the network property of the detached license,
+     * or to decrease the number of the detached network seats */
     HASP_EXTENSION_NOT_ALLOWED = 73,
 
     /** Detach of license not allowed as product
-     *  contains VM disabled feature and host machine is a virtual machine */
+     * contains VM disabled feature and host machine is a virtual machine */
     HASP_DETACH_DISABLED = 74,
 
     /** Rehost of license not allowed as container
-     *  contains VM disabled feature and host machine is a virtual machine */
+     * contains VM disabled feature and host machine is a virtual machine */
     HASP_REHOST_DISABLED = 75,
 
     /** Format SL-AdminMode or migrate SL-Legacy to SL-AdminMode not allowed
-     *  as container has detached license */
+     * as container has detached license */
     HASP_DETACHED_LICENSE_FOUND = 76,
 
     /** Recipient of the requested operation is older than expected */
@@ -476,11 +479,103 @@ enum hasp_error_codes
     /** The Sentinel License Manager is required for this operation */
     HASP_MISSING_LM = 80,
 
+    /** Attempting to consume multiple executions during log in to a Feature.
+     * However, the license for the Feature does not contain enough remaining executions */
+    HASP_FEATURE_INSUFFICIENT_EXECUTION_COUNT = 81,
+
+    /** Attempting to perform an operation not compatible with target platform */
+    HASP_INCOMPATIBLE_PLATFORM = 82,
+
+    /** The key is disabled due to suspected tampering */
+    HASP_HASP_DISABLED = 83,
+
+    /** The key is inaccessible due to sharing */
+    HASP_SHARING_VIOLATION = 84,
+
+    /** The session was killed due a network malfunction or manually from ACC */
+    HASP_KILLED_SESSION = 85,
+
+    /** Program running on a virtual storage */
+    HASP_VS_DETECTED = 86,
+
+    /** An identity is required */
+    HASP_IDENTITY_REQUIRED = 87,
+
+    /** The identity is not authenticated */
+    HASP_IDENTITY_UNAUTHENTICATED = 88,
+
+    /** The identity is disabled */
+    HASP_IDENTITY_DISABLED = 89,
+
+    /** The identity doesn't have enough permission for the operation */
+    HASP_IDENTITY_DENIED = 90,
+
+    /** A session for this identity from a different machine already exists */
+    HASP_IDENTITY_SHARING_VIOLATION = 91,
+
+    /** The maximum number of machines usable by the identity was reached */
+    HASP_IDENTITY_TOO_MANY_MACHINES = 92,
+
+    /** The server is not ready to authenticate */
+    HASP_IDENTITY_SERVER_NOT_READY = 93,
+
+    /** Trying to install a V2C file with an update counter that is out of
+     * sync with update counter in the Sentinel protection key. */
+    HASP_UPDATE_OUT_OF_SYNC = 94,
+
+    /** Multiple attempts to access the key from remote with a proxy */
+    HASP_REMOTE_SHARING_VIOLATION = 95,
+
+    /** The session was released because the seat was requested from a different location */
+    HASP_CLOUD_SESSION_OCCUPIED_REMOTELY = 96,
+
+    /** Cloud licensing authorization is required to use this license */
+    HASP_CLOUD_MISSING_AUTHORIZATION = 97,
+
+    /** Invalid seat value in network detach. Seat count cannot be decreased when modifying a detach */
+    HASP_INV_NETWORK_SEATS = 98,
+
+    /** Network detach is disabled on products with only unlimited concurrency features */
+    HASP_NETWORK_DETACH_DISABLED = 99,
+
+    /** The requested cloud functionality is not supported */
+    HASP_CLOUD_NOT_SUPP = 100,
+
+    /** Only trusted licenses can be installed in the trusted license storage */
+    HASP_CLOUD_NOT_TRUSTED = 101,
+
+    /** Communication error with the license storage */
+    HASP_CLOUD_STORAGE_COMM_ERR = 102,
+
+    /** The identity is expired */
+    HASP_IDENTITY_EXPIRED = 103,
+
+    /** Invalid option value */
+    HASP_INV_OPTION = 104,
+
+    /** Busy error with the license storage */
+    HASP_CLOUD_STORAGE_BUSY = 105,
+
+    /** This machine cannot be used */
+    HASP_MACHINE_DENIED = 106,
+
+    /** This machine is disabled */
+    HASP_MACHINE_DISABLED = 107,
+
+    /** The rate at which identity requests are received exceeds the contracted limit */
+    HASP_IDENTITY_RATE_LIMIT_EXCEEDED = 108,
+    
+    /** Feature start date not yet reached */
+    HASP_FEATURE_START_DATE_NOT_REACHED = 109,
+
     /** API dispatcher: API for this Vendor Code was not found */
     HASP_NO_API_DYLIB = 400,
 
     /** API dispatcher: Unable to load API; DLL possibly corrupt? */
     HASP_INV_API_DYLIB = 401,
+
+    /** API dispatcher: Unable to find API function; DLL possibly old? */
+    HASP_INCOMPLETE_API_DYLIB = 402,
 
     /** Invalid function parameter */
     HASP_INVALID_PARAMETER = 501,
@@ -520,7 +615,6 @@ enum hasp_error_codes
 
     /* Reserved for Sentinel Activation API */
     HASP_FIRST_HASP_ACT = 3001,
-
 
     HASP_NEXT_FREE_VALUES = 7001,
 };
@@ -1481,7 +1575,7 @@ hasp_status_t HASP_CALLCONV hasp_update(const char *update_data,
  * parameters.
  *
  * Starting from Sentinel LDK version 6.0, the "hasp_detach" API has been deprecated.
- * SafeNet recommends that user should use the "hasp_transfer" API to perform
+ * Thales recommends that user should use the "hasp_transfer" API to perform
  * the detach/cancel actions.This API has been retained for backward compatibility.
  *
  * <b>Sentinel Licensing API Usage Notes</b><br>
@@ -1716,7 +1810,7 @@ hasp_status_t HASP_CALLCONV hasp_transfer(const char *action,
  *
  * \param major_version Pointer to retrieve the major version number
  * \param minor_version Pointer to retrieve the minor version number
- * \param build_server  Pointer to retrieve the build server id
+ * \param generation_version  Pointer to retrieve the generation version number
  * \param build_number  Pointer to retrieve the build number
  * \param vendor_code   Pointer to the Vendor Code
  *
@@ -1731,7 +1825,7 @@ hasp_status_t HASP_CALLCONV hasp_transfer(const char *action,
  */
 hasp_status_t HASP_CALLCONV hasp_get_version(unsigned int *major_version,
                 unsigned int *minor_version,
-                unsigned int *build_server,
+                unsigned int *generation_version,
                 unsigned int *build_number,
                 hasp_vendor_code_t vendor_code);
 
@@ -1798,6 +1892,27 @@ hasp_status_t HASP_CALLCONV hasp_hasptime_to_datetime(hasp_time_t time,
                 unsigned int *hour,
                 unsigned int *minute,
                 unsigned int *second);
+
+/**
+ * \brief Update information regarding a login session for a Sentinel protection key
+ *
+ * The information that can currently be updated is the number of executions to
+ * consume from the license for a single login session.
+ *
+ * \param handle Handle for the session
+ * \param option Pointer to the XML code that defines the data to be updated by
+ *                 the function
+ *
+ * \return            <ul>
+ *                      <li>HASP_STATUS_OK</li> Request was successfully completed
+ *                      <li>HASP_INV_OPTION</li> Option string has an invalid format or content
+ *                      <li>HASP_BROKEN_SESSION</li> Session has been interrupted
+ *                    </ul>
+ * \sa hasp_get_sessioninfo()
+ *
+ */
+hasp_status_t HASP_CALLCONV hasp_update_session(hasp_handle_t handle,
+                const char *option);
 
 /**
  * @}
