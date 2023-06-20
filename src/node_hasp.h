@@ -11,7 +11,7 @@
 
 class NodeHasp : public node::ObjectWrap {
   public:
-    static void Init(v8::Handle<v8::Object> exports);
+    static void Init(v8::Local<v8::Object> exports, v8::Local<v8::Context> context);
     hasp_size_t get_size(v8::Isolate*);
 
   private:

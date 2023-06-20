@@ -3,8 +3,6 @@
 
 using namespace v8;
 
-void init_classes(Handle<Object> exports) {
-    NodeHasp::Init(exports);
+NODE_MODULE_INIT(/* exports, module, context */) {
+    NodeHasp::Init(exports, context);
 }
-
-NODE_MODULE(hasp, init_classes)
